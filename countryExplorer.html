@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Country Explorer</title>
+    <link rel="stylesheet" href="explorer1ā.css">
+  </head>
+  <body>
+    <div class="header">
+            <div class="inner-header">
+                <div class="logo"><a href="">Country Explorer</div>
+                <div class="header-link"><a href="">Sign up</a></div>
+                <div class="header-link"><a href="">Login</a></div>         
+            </div>
+        </div>
+        <div class="content">
+            <div class="banner-image">
+                <div class="inner-banner-image">
+                    <center>
+                    <div class="banner-content">
+                        <h1>Explore all the countries</h1>
+                        <p>Say bye to the routine and take a break exploring the countries</p>
+                    </div>
+                    </center>
+                </div>
+            </div>
+        </div>
+	
+    <h1>Country Explorer</h1>
+    <div id="main-container">
+      <div id="flag-container">
+        <img src="" alt="flag">
+      </div>
+      <div id="info-container">
+        <input type="text" id="countries"  placeholder="Search country...">
+        <button type="button" onclick="myfunc()">Click</button>
+        <div id="info">
+        <p>Capital: <span id="capital"></span></p>
+        <p>Dialing Code: <span id="dialing-code"></span></p>
+        <p>Population: <span id="population"></span></p>
+        <p>Currencies: <span id="currencies"></span></p>
+        </div>
+      </div>
+    </div>
+    <script>
+function myfunc()
+{
+     const countriesList = document.getElementById("countries");
+     let countries; // will contain "fetched" data
+     countriesList.addEventListener("change", newCountrySelection);
+}
+function newCountrySelection(event)
+{
+  displayCountryInfo(event.target.value);
+}
+
+
+fetch("https://restcountries.eu/rest/v2/all").then(res => res.json()).catch(err => console.log("Error:", err));
+
+
+function displayCountryInfo(countryByAlpha3Code) 
+{
+  const countryData = countries.find(country => country.alpha3Code === countryByAlpha3Code);
+  document.querySelector("#flag-container img").src = countryData.flag;
+  document.querySelector("#flag-container img").alt = `Flag of ${countryData.name}`;  
+  document.getElementById("capital").innerHTML = countryData.capital;
+  document.getElementById("dialing-code").innerHTML = `+${countryData.callingCodes[0]}`;
+  document.getElementById("population").innerHTML = countryData.population.toLocaleString("en-US");
+  document.getElementById("currencies").innerHTML = countryData.currencies.filter(c => c.name).map(c => `${c.name} (${c.code})`).join(", ");
+}
+
+}
+
+    </script>
+  </body>
+</html>
